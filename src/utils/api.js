@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const fetchYouTubeData = async (token) => {
+export const fetchYouTubeData = async (token) => {
   try {
     const response = await axios.get('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true', {
       headers: {
