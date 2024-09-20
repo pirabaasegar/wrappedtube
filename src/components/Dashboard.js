@@ -1,32 +1,42 @@
-import React, { useEffect } from 'react';
-import { fetchYouTubeData } from '../utils/api'; // Make sure this path is correct
-import { handleAuthClick, getAccessToken } from '../utils/auth'; // Adjust path accordingly
+import React, { useEffect, useState } from 'react';
+import { fetchYouTubeData } from '../utils/api';
 
 const Dashboard = () => {
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const code = queryParams.get('code');
+  const [videos, setVideos] = useState([]);
+  const [error, setError] = useState(null);
 
-    if (code) {
-      getAccessToken(code).then((token) => {
-        fetchYouTubeData(token).then(data => {
-          console.log(data);
-        }).catch(error => {
-          console.error('Error fetching YouTube data:', error);
-        });
-      }).catch(error => {
-        console.error('Error getting access token:', error);
-      });
-    } else {
-      // If no code, initiate OAuth flow
-      handleAuthClick();
-    }
+  useEffect(() => {
+    const token = localStorage.getItem('google_token');
+    console.log('Token:', token); // Log the token for debugging
+
+    const getYouTubeData = async () => {
+      try {
+        if (!token) throw new Error('No valid token found');
+
+        const data = await fetchYouTubeData(token);
+        if (data.items) {
+          setVideos(data.items);
+        } else {
+          throw new Error('No items found in response');
+        }
+      } catch (error) {
+        console.error('Error fetching YouTube data:', error);
+        setError('Failed to fetch YouTube data: ' + error.message);
+      }
+    };
+
+    getYouTubeData();
   }, []);
 
   return (
     <div>
-      <h1>Dashboard</h1>
-      {/* Your dashboard content */}
+      <h2>Your YouTube Videos</h2>
+      {error && <p>{error}</p>}
+      <ul>
+        {videos.map(video => (
+          <li key={video.id}>{video.title}</li>
+        ))}
+      </ul>
     </div>
   );
 };
