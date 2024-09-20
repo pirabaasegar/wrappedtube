@@ -26,7 +26,7 @@ const Login = () => {
           <h1 className='fs-3 fw-semi m-0'>See your <span className='fw-bold' style={{ color: 'rgb(255, 0, 0)' }}>YouTube</span> Wrapped now</h1>
           <p className='fs-5 m-0 mb-3'>Your top most watched videos, watchtime all in one place</p>
           <button onClick={login} className='bg-white rounded-5 pe-auto border border-gray'>
-            Sign in with Google
+          <i class="bi bi-google"></i>&nbsp;&nbsp;Sign in with Google
           </button>
         </div>
       </div>
