@@ -2,6 +2,8 @@ import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 
+require('dotenv').config();
+
 const clientId = process.env.GOOGLE_CLIENT_ID;
 
 const Login = () => {
