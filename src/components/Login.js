@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
+  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
+  console.log('Client ID:', clientId);
 
   const handleLoginSuccess = (response) => {
     console.log('Login Success:', response);
-    // Check the response structure here
     localStorage.setItem('google_token', response.credential);
     navigate('/dashboard');
   };
@@ -16,15 +18,13 @@ const Login = () => {
     console.error('Login Failed:', error);
   };
 
-  console.log('Client ID:', clientId);
-
   return (
     <div>
       <h2>Login with Google</h2>
       <GoogleLogin
         onSuccess={handleLoginSuccess}
         onFailure={handleLoginFailure}
-        clientId={process.env.GOOGLE_CLIENT_ID}
+        clientId={clientId}
       />
     </div>
   );
