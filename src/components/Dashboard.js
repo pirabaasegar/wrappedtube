@@ -7,7 +7,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('google_token');
-    
+
     const refreshTokenStored = localStorage.getItem('google_refresh_token');
     console.log('Refresh Token:', refreshTokenStored); // Add this to verify
     if (!refreshTokenStored) {
@@ -48,7 +48,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h2>Your Top 10 Subscribed Channels</h2>
       {error && <p>{error}</p>}
       <ul>
         {subscriptions.map(sub => (
