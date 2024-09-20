@@ -8,8 +8,6 @@ const Login = () => {
 
   console.log('Client ID:', clientId);
 
-  console.log('All environment variables:', process.env);
-
   const handleLoginSuccess = (response) => {
     console.log('Login Success:', response);
     localStorage.setItem('google_token', response.credential);
