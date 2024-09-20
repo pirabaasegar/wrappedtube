@@ -8,7 +8,7 @@ const Login = () => {
 
   const handleLoginSuccess = (response) => {
     const { credential } = response;
-    localStorage.setItem('google_token', credential); // Only store the access token
+    localStorage.setItem('google_token', credential);
     navigate('/dashboard');
   };
 
