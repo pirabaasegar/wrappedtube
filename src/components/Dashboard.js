@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { google } from 'google-auth-library';
-import { google as googleAPI } from 'google-api-javascript-client';
+import { google } from 'google-api-javascript-client';
 import { fetchUserSubscriptions } from '../utils/api';
 
 const Dashboard = () => {
