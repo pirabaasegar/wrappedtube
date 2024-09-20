@@ -20,7 +20,6 @@ export const fetchUserSubscriptions = async (token) => {
 
     return subscriptions;
   } catch (error) {
-    // Check if we got a 401 (Unauthorized) error, indicating token expiration
     if (error.response && error.response.status === 401) {
       console.error('Access token expired, trying to refresh token');
       
@@ -29,7 +28,6 @@ export const fetchUserSubscriptions = async (token) => {
         throw new Error('No refresh token available');
       }
 
-      // Attempt to refresh the token
       const newToken = await refreshToken(refreshTokenStored);
       if (newToken) {
         // Retry fetching the subscriptions with the new token
@@ -44,7 +42,6 @@ export const fetchUserSubscriptions = async (token) => {
   }
 };
 
-// Function to refresh the token
 export const refreshToken = async (refreshToken) => {
   try {
     const response = await axios.post('https://oauth2.googleapis.com/token', {
