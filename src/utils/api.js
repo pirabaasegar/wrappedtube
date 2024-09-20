@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// Function to fetch user subscriptions
 export const fetchUserSubscriptions = async (token) => {
   try {
     const subscriptionsResponse = await axios.get('https://www.googleapis.com/youtube/v3/subscriptions', {
@@ -21,8 +20,27 @@ export const fetchUserSubscriptions = async (token) => {
 
     return subscriptions;
   } catch (error) {
-    console.error('Error fetching user subscriptions:', error.response ? error.response.data : error.message);
-    return []; // Return an empty array on error
+    // Check if we got a 401 (Unauthorized) error, indicating token expiration
+    if (error.response && error.response.status === 401) {
+      console.error('Access token expired, trying to refresh token');
+      
+      const refreshTokenStored = localStorage.getItem('google_refresh_token');
+      if (!refreshTokenStored) {
+        throw new Error('No refresh token available');
+      }
+
+      // Attempt to refresh the token
+      const newToken = await refreshToken(refreshTokenStored);
+      if (newToken) {
+        // Retry fetching the subscriptions with the new token
+        return await fetchUserSubscriptions(newToken);
+      } else {
+        throw new Error('Failed to refresh token');
+      }
+    } else {
+      console.error('Error fetching user subscriptions:', error.response ? error.response.data : error.message);
+      return []; // Return an empty array on error
+    }
   }
 };
 
@@ -30,8 +48,8 @@ export const fetchUserSubscriptions = async (token) => {
 export const refreshToken = async (refreshToken) => {
   try {
     const response = await axios.post('https://oauth2.googleapis.com/token', {
-      client_id: 'process.env.REACT_APP_GOOGLE_CLIENT_ID',
-      client_secret: 'process.env.REACT_APP_GOOGLE_CLIENT_SECRET',
+      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+      client_secret: process.env.REACT_APP_GOOGLE_CLIENT_SECRET,
       refresh_token: refreshToken,
       grant_type: 'refresh_token',
     });
