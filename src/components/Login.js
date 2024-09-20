@@ -25,7 +25,7 @@ const Login = () => {
         <div className='d-flex flex-column align-items-center'>
           <h1 className='fs-3 fw-semi m-0'>See your <span className='fw-bold' style={{ color: 'rgb(255, 0, 0)' }}>YouTube</span> Wrapped now</h1>
           <p className='fs-5 m-0 mb-3'>Your top most watched videos, watchtime all in one place</p>
-          <button  onClick={login} style={{ backgroundColor: '#4285F4', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', fontSize: '16px', cursor: 'pointer' }}>
+          <button onClick={login} className='bg-white rounded-5 pe-auto border border-gray'>
             Sign in with Google
           </button>
         </div>
