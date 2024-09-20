@@ -17,14 +17,19 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login with Google</h2>
-      <GoogleLogin
-        onSuccess={handleLoginSuccess}
-        onFailure={handleLoginFailure}
-        clientId={clientId}
-        scope="https://www.googleapis.com/auth/youtube.readonly"
-      />
+    <div className='d-flex flex-column justify-content-center align-items-center' height='485px'>
+      <div className='rounded-2 shadow bg-white p-6 border border-gray d-flex flex-column align-items-center'>
+        <div className='text-center px-5'>
+          <h1>Login with Google</h1>
+          <p>Your top most watched videos, watchtime all in one place</p>
+          <GoogleLogin
+            onSuccess={handleLoginSuccess}
+            onFailure={handleLoginFailure}
+            clientId={clientId}
+            scope="https://www.googleapis.com/auth/youtube.readonly"
+          />
+        </div>
+      </div>
     </div>
   );
 };
