@@ -23,6 +23,7 @@ export const fetchUserSubscriptions = async (token) => {
     return subscriptions;
   } catch (error) {
     console.error('Error fetching user subscriptions:', error.response ? error.response.data : error.message);
+    // Handle token refresh or re-authentication if necessary
     return []; // Return an empty array on error
   }
 };
