@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const fetchYouTubeData = async (token) => {
+export const fetchYouTubeSubscribers = async (token) => {
   try {
     // Get the channel ID of the authenticated user
     const channelResponse = await axios.get('https://www.googleapis.com/youtube/v3/channels', {
@@ -8,43 +8,34 @@ export const fetchYouTubeData = async (token) => {
         Authorization: `Bearer ${token}`,
       },
       params: {
-        part: 'contentDetails',
+        part: 'id',
         mine: true,
       },
     });
 
     const channelId = channelResponse.data.items[0].id;
 
-    // Fetch videos from the channel
-    const videosResponse = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+    // Fetch subscribers from the channel
+    const subscribersResponse = await axios.get('https://www.googleapis.com/youtube/v3/subscriptions', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
       params: {
         part: 'snippet',
-        channelId: channelId,
         maxResults: 10,
-        order: 'date',
-        type: 'video',
+        mine: true,
       },
     });
 
     // Process the response data
-    const videos = videosResponse.data.items.map(item => ({
+    const subscribers = subscribersResponse.data.items.map(item => ({
       title: item.snippet.title,
-      watchTime: Math.random() * 10, // Replace with real data
+      channelId: item.snippet.resourceId.channelId,
     }));
 
-    // Generate sample watch time data
-    const watchTime = [
-      { date: '2024-01-01', watchTime: 5 },
-      { date: '2024-02-01', watchTime: 10 },
-      // Add more data as needed
-    ];
-
-    return { videos, watchTime };
+    return subscribers;
   } catch (error) {
-    console.error('Error fetching YouTube data:', error);
-    return { videos: [], watchTime: [] };
+    console.error('Error fetching YouTube subscribers:', error);
+    return [];
   }
 };
