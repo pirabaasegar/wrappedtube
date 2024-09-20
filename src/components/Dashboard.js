@@ -8,27 +8,35 @@ const Dashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem('google_token');
     console.log('Stored token:', token);
-    
+
     if (!token) {
       console.error('No valid token found');
       setError('No valid token found');
       return;
     }
-  
+
+    // Check if the token is expired
+    const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+    if (tokenPayload.exp < Date.now() / 1000) {
+      console.error('Token has expired');
+      setError('Token has expired');
+      return;
+    }
+
     const getUserSubscriptions = async () => {
       try {
         const data = await fetchUserSubscriptions(token);
         if (data.length) {
           setSubscriptions(data);
         } else {
-          throw new Error('No subscriptions found');
+          setError('No subscriptions found');
         }
       } catch (error) {
         console.error('Error fetching user subscriptions:', error.message);
         setError('Failed to fetch user subscriptions: ' + error.message);
       }
     };
-  
+
     getUserSubscriptions();
   }, []);
 

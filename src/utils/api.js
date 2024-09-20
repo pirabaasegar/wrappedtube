@@ -12,15 +12,15 @@ export const fetchUserSubscriptions = async (token) => {
         mine: true,
       },
     });
-  
+
     console.log('Subscriptions Response:', subscriptionsResponse.data);
-  
+
     const subscriptions = subscriptionsResponse.data.items.map(item => ({
       title: item.snippet.title,
       channelId: item.snippet.resourceId.channelId,
     }));
-  
-    return subscriptions; // Return the array directly
+
+    return subscriptions;
   } catch (error) {
     console.error('Error fetching user subscriptions:', error.response ? error.response.data : error.message);
     return []; // Return an empty array on error
