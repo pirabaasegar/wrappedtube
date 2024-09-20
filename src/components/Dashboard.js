@@ -21,8 +21,8 @@ const Dashboard = () => {
           throw new Error('No items found in response');
         }
       } catch (error) {
-        console.error('Error fetching YouTube data:', error);
-        setError('Failed to fetch YouTube data: ' + error.message);
+        console.error('Error fetching YouTube data:', error.response ? error.response.data : error.message);
+        setError('Failed to fetch YouTube data: ' + (error.response ? error.response.data.error.message : error.message));
       }
     };
   
