@@ -11,8 +11,8 @@ export const handleAuthClick = () => {
 export const getAccessToken = async (code) => {
   const response = await axios.post('https://oauth2.googleapis.com/token', {
     code: code,
-    client_id: clientId,
-    client_secret: clientSecret,
+    client_id: `${clientId}`,
+    client_secret: `${clientSecret}`,
     redirect_uri: 'https://wrappedtube.vercel.app',
     grant_type: '4',
   });
