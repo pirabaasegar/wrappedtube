@@ -22,6 +22,7 @@ const Login = () => {
         onSuccess={handleLoginSuccess}
         onFailure={handleLoginFailure}
         clientId={clientId}
+        scope="https://www.googleapis.com/auth/youtube.readonly"
       />
     </div>
   );
