@@ -1,32 +1,45 @@
-import React from 'react';
-import { GoogleLogin } from '@react-oauth/google';
+import React, { useEffect, useState } from 'react';
+import { fetchUserSubscriptions } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const navigate = useNavigate();
-  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const Dashboard = () => {
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();  // To navigate to login if token is invalid
 
-  const handleLoginSuccess = (response) => {
-    const { credential } = response;
-    localStorage.setItem('google_token', credential); // Only store the access token
-    navigate('/dashboard');
-  };
+  useEffect(() => {
+    const token = localStorage.getItem('google_token');
 
-  const handleLoginFailure = (error) => {
-    console.error('Login Failed:', error);
-  };
+    if (!token) {
+      setError('No valid token found');
+      navigate('/');  // Redirect to login page if no token is found
+      return;
+    }
+
+    const fetchSubscriptions = async () => {
+      try {
+        const data = await fetchUserSubscriptions(token);
+        setSubscriptions(data.length ? data : []);
+      } catch (error) {
+        setError('Failed to fetch user subscriptions. Please log in again.');
+        localStorage.removeItem('google_token');  // Clear token if expired
+        navigate('/');  // Redirect to login page
+      }
+    };
+
+    fetchSubscriptions();
+  }, [navigate]);
 
   return (
     <div>
-      <h2>Login with Google</h2>
-      <GoogleLogin
-        onSuccess={handleLoginSuccess}
-        onFailure={handleLoginFailure}
-        clientId={clientId}
-        scope="https://www.googleapis.com/auth/youtube.readonly"
-      />
+      {error && <p>{error}</p>}
+      <ul>
+        {subscriptions.map(sub => (
+          <li key={sub.channelId}>{sub.title}</li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default Login;
+export default Dashboard;
