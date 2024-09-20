@@ -16,6 +16,8 @@ const Login = () => {
     console.error('Login Failed:', error);
   };
 
+  console.log('Client ID:', clientId);
+
   return (
     <div>
       <h2>Login with Google</h2>
