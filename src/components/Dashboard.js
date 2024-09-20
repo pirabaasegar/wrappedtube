@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { fetchYouTubeSubscribers } from '../utils/api';
+import { fetchUserSubscriptions } from '../utils/api';
 
 const Dashboard = () => {
-  const [subscribers, setSubscribers] = useState([]);
+  const [subscriptions, setSubscriptions] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -14,30 +14,30 @@ const Dashboard = () => {
       return;
     }
   
-    const getYouTubeSubscribers = async () => {
+    const getUserSubscriptions = async () => {
       try {
-        const data = await fetchYouTubeSubscribers(token);
+        const data = await fetchUserSubscriptions(token);
         if (data.length) {
-          setSubscribers(data);
+          setSubscriptions(data);
         } else {
-          throw new Error('No subscribers found');
+          throw new Error('No subscriptions found');
         }
       } catch (error) {
-        console.error('Error fetching YouTube subscribers:', error.message);
-        setError('Failed to fetch YouTube subscribers: ' + error.message);
+        console.error('Error fetching user subscriptions:', error.message);
+        setError('Failed to fetch user subscriptions: ' + error.message);
       }
     };
   
-    getYouTubeSubscribers();
+    getUserSubscriptions();
   }, []);
 
   return (
     <div>
-      <h2>Your Top 10 Subscribers</h2>
+      <h2>Your Top 10 Subscribed Channels</h2>
       {error && <p>{error}</p>}
       <ul>
-        {subscribers.map(subscriber => (
-          <li key={subscriber.channelId}>{subscriber.title}</li>
+        {subscriptions.map(sub => (
+          <li key={sub.channelId}>{sub.title}</li>
         ))}
       </ul>
     </div>
