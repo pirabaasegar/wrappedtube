@@ -11,6 +11,7 @@ const Dashboard = () => {
     
     if (!token) {
       console.error('No valid token found');
+      setError('No valid token found');
       return;
     }
   
