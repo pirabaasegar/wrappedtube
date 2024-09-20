@@ -7,7 +7,6 @@ const Login = () => {
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
   const handleLoginSuccess = (response) => {
-    console.log('Login Success:', response);
     localStorage.setItem('google_token', response.credential);
     navigate('/dashboard');
   };
