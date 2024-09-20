@@ -22,7 +22,7 @@ const Login = () => {
       <h2>Login with Google</h2>
       <GoogleLogin
         onSuccess={handleLoginSuccess}
-        onFailure={handleLoginFailure}
+        onError={handleLoginFailure}
         clientId={clientId}
         scope="https://www.googleapis.com/auth/youtube.readonly"
       />
