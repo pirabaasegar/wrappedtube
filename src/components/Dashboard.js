@@ -7,6 +7,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('google_token');
+    console.log('Stored token:', token);
+    
     if (!token) {
       console.error('No valid token found');
       return;
