@@ -23,49 +23,12 @@ export const fetchUserSubscriptions = async (token) => {
     return subscriptions;
   } catch (error) {
     if (error.response && error.response.status === 401) {
-      console.error('Access token expired, trying to refresh token');
-      
-      const refreshTokenStored = localStorage.getItem('google_refresh_token');
-      if (!refreshTokenStored) {
-        throw new Error('No refresh token available');
-      }
-
-      const newToken = await refreshToken(refreshTokenStored);
-      if (newToken) {
-        return await fetchUserSubscriptions(newToken);  // Retry with new token
-      } else {
-        console.error('Failed to refresh token, clearing stored tokens');
-        localStorage.removeItem('google_refresh_token');
-        localStorage.removeItem('google_token');
-        throw new Error('Failed to refresh token');
-      }
+      console.error('Access token expired, please log in again');
+      localStorage.removeItem('google_token');  // Clear the expired token
+      throw new Error('Access token expired, please log in again');
     } else {
       console.error('Error fetching subscriptions:', error.message);
       throw error;  // Throw the error if it's not related to token expiration
     }
-  }
-};
-
-export const refreshToken = async (refreshToken) => {
-  try {
-    const response = await axios.post('https://oauth2.googleapis.com/token', {
-      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-      client_secret: process.env.REACT_APP_GOOGLE_CLIENT_SECRET,
-      refresh_token: refreshToken,
-      grant_type: 'refresh_token',
-    });
-
-    const newToken = response.data.access_token;
-    localStorage.setItem('google_token', newToken); // Store the new token
-    return newToken;
-  } catch (error) {
-    console.error('Error refreshing token:', error.response ? error.response.data : error.message);
-    
-    // Additional logging for debugging
-    if (error.response && error.response.data) {
-      console.error('Refresh token error details:', error.response.data);
-    }
-    
-    return null;
   }
 };

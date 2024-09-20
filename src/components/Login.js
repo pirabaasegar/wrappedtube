@@ -7,9 +7,8 @@ const Login = () => {
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
   const handleLoginSuccess = (response) => {
-    const { credential, refreshToken } = response;
-    localStorage.setItem('google_token', credential);
-    localStorage.setItem('google_refresh_token', refreshToken);
+    const { credential } = response;
+    localStorage.setItem('google_token', credential); // Only store the access token
     navigate('/dashboard');
   };
 
@@ -22,7 +21,7 @@ const Login = () => {
       <h2>Login with Google</h2>
       <GoogleLogin
         onSuccess={handleLoginSuccess}
-        onError={handleLoginFailure}
+        onFailure={handleLoginFailure}
         clientId={clientId}
         scope="https://www.googleapis.com/auth/youtube.readonly"
       />
