@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom';
 const Dashboard = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();  // To navigate to login if token is invalid
+  const navigate = useNavigate();  // To redirect the user to the login page
 
   useEffect(() => {
     const token = localStorage.getItem('google_token');
 
     if (!token) {
       setError('No valid token found');
-      navigate('/');  // Redirect to login page if no token is found
+      navigate('/');  // Redirect to login page if no token exists
       return;
     }
 
@@ -20,10 +20,9 @@ const Dashboard = () => {
       try {
         const data = await fetchUserSubscriptions(token);
         setSubscriptions(data.length ? data : []);
-      } catch (error) {
-        setError('Failed to fetch user subscriptions. Please log in again.');
-        localStorage.removeItem('google_token');  // Clear token if expired
-        navigate('/');  // Redirect to login page
+      } catch (err) {
+        setError('Please log in again.');
+        navigate('/');  // Redirect to login page on error (e.g., token expired)
       }
     };
 
