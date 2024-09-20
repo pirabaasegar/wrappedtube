@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserSubscriptions } from '../utils/api';
+import { fetchUserSubscriptions, refreshToken } from '../utils/api';
 
 const Dashboard = () => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -7,37 +7,38 @@ const Dashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('google_token');
-    console.log('Stored token:', token);
+    const refreshTokenStored = localStorage.getItem('google_refresh_token'); // Make sure to store this initially
 
     if (!token) {
-      console.error('No valid token found');
       setError('No valid token found');
       return;
     }
 
-    // Check if the token is expired
+    // Decode the token and check its expiration
     const tokenPayload = JSON.parse(atob(token.split('.')[1]));
     if (tokenPayload.exp < Date.now() / 1000) {
-      console.error('Token has expired');
-      setError('Token has expired');
+      const refresh = async () => {
+        const newToken = await refreshToken(refreshTokenStored); // Refresh the token
+        if (newToken) {
+          fetchSubscriptions(newToken);
+        } else {
+          setError('Failed to refresh token');
+        }
+      };
+      refresh();
       return;
     }
 
-    const getUserSubscriptions = async () => {
+    const fetchSubscriptions = async (token) => {
       try {
         const data = await fetchUserSubscriptions(token);
-        if (data.length) {
-          setSubscriptions(data);
-        } else {
-          setError('No subscriptions found');
-        }
+        setSubscriptions(data.length ? data : []);
       } catch (error) {
-        console.error('Error fetching user subscriptions:', error.message);
-        setError('Failed to fetch user subscriptions: ' + error.message);
+        setError('Failed to fetch user subscriptions');
       }
     };
 
-    getUserSubscriptions();
+    fetchSubscriptions(token);
   }, []);
 
   return (
