@@ -60,6 +60,12 @@ export const refreshToken = async (refreshToken) => {
     return newToken;
   } catch (error) {
     console.error('Error refreshing token:', error.response ? error.response.data : error.message);
+    
+    // Additional logging for debugging
+    if (error.response && error.response.data) {
+      console.error('Refresh token error details:', error.response.data);
+    }
+    
     return null;
   }
 };
