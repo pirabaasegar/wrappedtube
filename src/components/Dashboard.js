@@ -7,12 +7,13 @@ const Dashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('google_token');
-    console.log('Token:', token); // Log the token for debugging
-
+    if (!token) {
+      console.error('No valid token found');
+      return;
+    }
+  
     const getYouTubeData = async () => {
       try {
-        if (!token) throw new Error('No valid token found');
-
         const data = await fetchYouTubeData(token);
         if (data.items) {
           setVideos(data.items);
@@ -24,7 +25,7 @@ const Dashboard = () => {
         setError('Failed to fetch YouTube data: ' + error.message);
       }
     };
-
+  
     getYouTubeData();
   }, []);
 

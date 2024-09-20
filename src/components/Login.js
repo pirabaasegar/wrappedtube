@@ -2,13 +2,12 @@ import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 
-const clientId = process.env.GOOGLE_CLIENT_ID;
-
 const Login = () => {
   const navigate = useNavigate();
 
   const handleLoginSuccess = (response) => {
     console.log('Login Success:', response);
+    // Check the response structure here
     localStorage.setItem('google_token', response.credential);
     navigate('/dashboard');
   };
@@ -23,7 +22,7 @@ const Login = () => {
       <GoogleLogin
         onSuccess={handleLoginSuccess}
         onFailure={handleLoginFailure}
-        clientId={clientId}
+        clientId={process.env.GOOGLE_CLIENT_ID}
       />
     </div>
   );
