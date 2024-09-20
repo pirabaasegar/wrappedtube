@@ -1,11 +1,15 @@
 import axios from 'axios';
 
-export const fetchYouTubeData = async (token) => {
-  const response = await axios.get('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+const token = localStorage.getItem('google_token');
 
-  return response.data;
-};
+axios.get('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true', {
+    headers: {
+        Authorization: `Bearer ${token}`
+    }
+})
+.then(response => {
+    console.log(response.data);
+})
+.catch(error => {
+    console.error('Error fetching YouTube data:', error);
+});
