@@ -17,7 +17,7 @@ const Login = () => {
   };
 
   return (
-    <div className='d-flex flex-column justify-content-center align-items-center' height='485px'>
+    <div className='d-flex flex-column justify-content-center align-items-center vh-100'>
       <div className='rounded-2 shadow bg-white p-6 border border-gray d-flex flex-column align-items-center'>
         <div className='text-center px-5'>
           <h1>Login with Google</h1>
