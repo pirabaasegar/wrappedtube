@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { google } from 'google-auth-library';
-import { google } from 'google-api-javascript-client';
+import { googleAPI } from 'google-api-javascript-client';
 import { fetchUserSubscriptions } from '../utils/api';
 
 const Dashboard = () => {
@@ -24,7 +24,7 @@ const Dashboard = () => {
       setError('Token has expired');
 
       // Refresh the token
-      const auth = new google.auth.GoogleAuth({
+      const auth = new googleAPI.auth.GoogleAuth({
         client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
         client_secret: process.env.REACT_APP_GOOGLE_CLIENT_SECRET,
         redirect_uri: 'https://wrappedtube.vercel.app',
