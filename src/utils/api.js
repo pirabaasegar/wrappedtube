@@ -30,8 +30,8 @@ export const fetchUserSubscriptions = async (token) => {
 export const refreshToken = async (refreshToken) => {
   try {
     const response = await axios.post('https://oauth2.googleapis.com/token', {
-      client_id: 'YOUR_CLIENT_ID',
-      client_secret: 'YOUR_CLIENT_SECRET',
+      client_id: 'process.env.REACT_APP_GOOGLE_CLIENT_ID',
+      client_secret: 'process.env.REACT_APP_GOOGLE_CLIENT_SECRET',
       refresh_token: refreshToken,
       grant_type: 'refresh_token',
     });
