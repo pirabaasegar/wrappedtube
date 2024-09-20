@@ -27,17 +27,16 @@ export const fetchUserSubscriptions = async (token) => {
       if (!refreshTokenStored) {
         throw new Error('No refresh token available');
       }
-
+    
       const newToken = await refreshToken(refreshTokenStored);
       if (newToken) {
-        // Retry fetching the subscriptions with the new token
-        return await fetchUserSubscriptions(newToken);
+        return await fetchUserSubscriptions(newToken); // Retry with new token
       } else {
+        console.error('Failed to refresh token, clearing stored tokens');
+        localStorage.removeItem('google_refresh_token');
+        localStorage.removeItem('google_token');
         throw new Error('Failed to refresh token');
       }
-    } else {
-      console.error('Error fetching user subscriptions:', error.response ? error.response.data : error.message);
-      return []; // Return an empty array on error
     }
   }
 };
