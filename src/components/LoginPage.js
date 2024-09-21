@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { gapi } from 'gapi-script';
 import { useNavigate } from 'react-router-dom';
-
-import initGoogleAuth from '../hooks/useGoogleAuth';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -10,24 +8,6 @@ const SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
 
 const LoginPage = ({ setAccessToken }) => {
   const navigate = useNavigate();
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-      // Initialize Google OAuth on component mount
-      initGoogleAuth();
-
-      // Check if token exists and is not expired
-      const token = localStorage.getItem('access_token');
-      const tokenExpiry = localStorage.getItem('token_expiry');
-      const currentTime = new Date().getTime();
-
-      if (token && currentTime < tokenExpiry) {
-          setIsLoggedIn(true);  // User is logged in
-      } else {
-          setIsLoggedIn(false);  // User is not logged in
-      }
-  }, []);
 
   const login = () => {
     gapi.load('client:auth2', () => {
@@ -42,7 +22,7 @@ const LoginPage = ({ setAccessToken }) => {
         authInstance.signIn().then((user) => {
           const accessToken = user.getAuthResponse().access_token;
           console.log('Access Token:', accessToken);
-          setAccessToken(accessToken);  // This now saves it in localStorage
+          setAccessToken(accessToken);
           navigate('/');
         }).catch((err) => {
           console.error('Error signing in:', err);
