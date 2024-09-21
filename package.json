@@ -12,6 +12,7 @@
     "bootstrap-icons": "^1.11.3",
     "chart.js": "^4.4.4",
     "dotenv": "^16.4.5",
+    "gapi-script": "^1.2.0",
     "google-api-javascript-client": "^0.1.0",
     "googleapis": "^144.0.0",
     "react": "^18.3.1",
