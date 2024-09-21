@@ -12,7 +12,7 @@ const MainPage = ({ accessToken }) => {
 
   return (
     <div className="container">
-      <h1>Your Top Subscribed Channels</h1>
+      <h1>Your Top Subscribed</h1>
       <ul className='list-unstyled'>
         {subscriptions.map((sub) => (
           <li key={sub.id} className='d-flex align-items-center gap-3'>
