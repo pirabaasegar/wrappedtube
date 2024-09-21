@@ -17,14 +17,13 @@ export const getSubscriptions = async (accessToken) => {
 
     const subscriptions = response.data.items;
 
-    // Fetch subscriber count for each subscription
     const subscriberPromises = subscriptions.map(async (sub) => {
       const channelResponse = await axios.get(`${API_URL}/channels`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         params: {
-          part: 'statistics', // Get statistics part for subscriber count
+          part: 'statistics',
           id: sub.snippet.resourceId.channelId,
         },
       });
@@ -33,7 +32,7 @@ export const getSubscriptions = async (accessToken) => {
 
       return {
         ...sub,
-        subscriberCount, // Add subscriber count to subscription data
+        subscriberCount,
       };
     });
 
