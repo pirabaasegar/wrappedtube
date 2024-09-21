@@ -16,8 +16,15 @@ const MainPage = ({ accessToken }) => {
       <ul className='list-unstyled d-flex flex-column gap-2'>
         {subscriptions.map((sub) => (
           <li key={sub.id} className='d-flex align-items-center gap-3'>
-            <img src={sub.snippet.thumbnails.default.url} alt={sub.snippet.title} className='rounded-circle img-fluid channel-pic'/>
-            <p className='m-0'>{sub.snippet.title}</p>
+            <img 
+              src={sub.snippet.thumbnails.default.url} 
+              alt={sub.snippet.title} 
+              className='rounded-circle img-fluid channel-pic'
+            />
+            <div>
+              <p className='m-0'>{sub.snippet.title}</p>
+              <p className='m-0 text-muted'>{sub.snippet.categoryId}</p>
+            </div>
           </li>
         ))}
       </ul>
