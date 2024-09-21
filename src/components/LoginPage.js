@@ -11,7 +11,9 @@ const LoginPage = ({ setAccessToken }) => {
 
     authInstance.signIn().then((user) => {
       const accessToken = user.getAuthResponse().access_token;
+      console.log('Access Token:', accessToken);
       setAccessToken(accessToken);
+      // Optionally redirect here or handle in App.js
     }).catch((err) => {
       console.error('Error signing in:', err);
     });
