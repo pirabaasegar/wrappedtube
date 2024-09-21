@@ -29,7 +29,7 @@ const MainPage = ({ accessToken }) => {
         {subscriptions.map((sub, index) => (
           <li key={sub.id} className='d-flex align-items-center gap-3'>
             <div style={{ minWidth: '22px' }}>
-              <p className="text-muted text-end me-2">{index + 1}</p>
+              <p className="text-muted text-end m-0 me-2 d-flex align-items-center justify-content-center">{index + 1}</p>
             </div>
             <img 
               src={sub.snippet.thumbnails.default.url} 
