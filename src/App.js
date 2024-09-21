@@ -7,8 +7,9 @@ import useGoogleAuth from './hooks/useGoogleAuth';
 
 function App() {
     const [accessToken, setAccessToken] = useState(null);
-
-    useGoogleAuth();
+  
+    // Initialize Google Auth
+    useGoogleAuth(setAccessToken);
 
     return (
         <Router>
