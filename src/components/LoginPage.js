@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { gapi } from 'gapi-script';
 import { useNavigate } from 'react-router-dom';
 
-import initGoogleAuth from './useGoogleAuth';
+import initGoogleAuth from '../hooks/useGoogleAuth';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
