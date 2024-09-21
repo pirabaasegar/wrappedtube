@@ -34,7 +34,7 @@ const MainPage = ({ accessToken }) => {
               className='rounded-circle img-fluid channel-pic'
             />
             <div>
-              <p className='m-0'>{sub.snippet.title}</p>
+              <p className='m-0 fw-medium'>{sub.snippet.title}</p>
               <p className='m-0 text-muted'>{formatSubscribers(sub.subscriberCount)} subscribers</p>
             </div>
           </li>
