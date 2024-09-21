@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import MainPage from './components/MainPage';
 import StatsPage from './components/StatsPage';
@@ -8,16 +8,7 @@ import useGoogleAuth from './hooks/useGoogleAuth';
 function App() {
     const [accessToken, setAccessToken] = useState(null);
 
-    // Initialize Google Auth
-    useGoogleAuth(setAccessToken);
-  
-    useEffect(() => {
-      // Check for existing token in local storage on initial load
-      const token = localStorage.getItem('accessToken');
-      if (token) {
-        setAccessToken(token);
-      }
-    }, []);
+    useGoogleAuth();
 
     return (
         <Router>
