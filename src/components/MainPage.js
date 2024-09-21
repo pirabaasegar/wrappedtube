@@ -13,10 +13,10 @@ const MainPage = ({ accessToken }) => {
   return (
     <div className="container">
       <h1>Your Top Subscribed Channels</h1>
-      <ul>
+      <ul className='list-unstyled'>
         {subscriptions.map((sub) => (
-          <li key={sub.id}>
-            <img src={sub.snippet.thumbnails.default.url} alt={sub.snippet.title} />
+          <li key={sub.id} className='d-flex align-items-center gap-3'>
+            <img src={sub.snippet.thumbnails.default.url} alt={sub.snippet.title} className='rounded-circle img-fluid'/>
             <p>{sub.snippet.title}</p>
           </li>
         ))}
