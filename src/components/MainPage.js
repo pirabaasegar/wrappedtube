@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { getSubscriptions } from '../api/youtube';
+import { getSubscriptions } from '../api/youtube'; // Ensure this path is correct
 
 const MainPage = ({ accessToken }) => {
   const [subscriptions, setSubscriptions] = useState([]);
 
   useEffect(() => {
-    if (accessToken) {
-      getSubscriptions(accessToken).then((data) => setSubscriptions(data));
-    }
+    const fetchSubscriptions = async () => {
+      if (accessToken) {
+        const data = await getSubscriptions(accessToken);
+        setSubscriptions(data);
+      }
+    };
+
+    fetchSubscriptions();
   }, [accessToken]);
 
   return (
@@ -23,7 +28,7 @@ const MainPage = ({ accessToken }) => {
             />
             <div>
               <p className='m-0'>{sub.snippet.title}</p>
-              <p className='m-0 text-muted'>{sub.snippet.categoryId}</p>
+              <p className='m-0 text-muted'>{sub.category}</p> {/* Displays category name */}
             </div>
           </li>
         ))}
