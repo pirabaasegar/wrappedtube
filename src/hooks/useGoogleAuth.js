@@ -14,16 +14,24 @@ const useGoogleAuth = (setAccessToken) => {
         scope: SCOPES,
         discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
       }).then(() => {
-        gapi.auth2.getAuthInstance().isSignedIn.listen((isSignedIn) => {
+        const authInstance = gapi.auth2.getAuthInstance();
+        
+        // Listen for sign-in state changes
+        authInstance.isSignedIn.listen((isSignedIn) => {
           if (isSignedIn) {
-            const token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
+            const token = authInstance.currentUser.get().getAuthResponse().access_token;
             setAccessToken(token);
+          } else {
+            setAccessToken(null); // Clear token if signed out
           }
         });
-        gapi.auth2.getAuthInstance().signIn();
+        
+        // Do NOT call signIn() here
+      }).catch((err) => {
+        console.error('Error initializing Google API:', err);
       });
     };
-    
+
     gapi.load('client:auth2', initClient);
   }, [setAccessToken]);
 };
