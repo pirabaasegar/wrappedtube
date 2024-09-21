@@ -34,7 +34,7 @@ const MainPage = ({ accessToken }) => {
             <img 
               src={sub.snippet.thumbnails.default.url} 
               alt={sub.snippet.title} 
-              className='rounded-circle img-fluid channel-pic'
+              className='rounded-circle img-fluid shadown channel-pic'
             />
             <div>
               <p className='m-0 fw-medium'>{sub.snippet.title}</p>
