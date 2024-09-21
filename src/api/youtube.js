@@ -29,7 +29,7 @@ export const getMostWatchedVideos = async (accessToken) => {
       },
       params: {
         part: 'snippet,contentDetails',
-        maxResults: 10, // Top 10 watched videos
+        maxResults: 10,
         chart: 'mostPopular',
         mine: true,
       },
@@ -45,7 +45,7 @@ export const calculateWatchTime = async (videos) => {
   let totalWatchTime = 0;
 
   videos.forEach((video) => {
-    const duration = video.contentDetails.duration; // e.g. PT1H2M3S
+    const duration = video.contentDetails.duration;
     const hours = parseDuration(duration);
     totalWatchTime += hours;
   });

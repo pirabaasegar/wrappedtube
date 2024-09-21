@@ -23,7 +23,6 @@ const LoginPage = ({ setAccessToken }) => {
           const accessToken = user.getAuthResponse().access_token;
           console.log('Access Token:', accessToken);
           setAccessToken(accessToken);
-          // Redirect to main page after successful login
           navigate('/');
         }).catch((err) => {
           console.error('Error signing in:', err);
