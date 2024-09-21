@@ -25,7 +25,7 @@ const MainPage = ({ accessToken }) => {
   return (
     <div className="container">
       <h1 className='fw-bold'>Your Top Subscribed</h1>
-      <ul className='list-unstyled d-flex flex-column gap-2'>
+      <ul className='list-unstyled d-flex flex-column gap-3'>
         {subscriptions.map((sub, index) => (
           <li key={sub.id} className='d-flex align-items-center gap-3'>
             <div style={{ minWidth: '22px' }}>
