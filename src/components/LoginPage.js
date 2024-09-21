@@ -7,26 +7,13 @@ const SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
 
 const LoginPage = ({ setAccessToken }) => {
   const login = () => {
-    // Load the gapi client only when the login button is clicked
-    gapi.load('client:auth2', () => {
-      gapi.client.init({
-        apiKey: API_KEY,
-        clientId: CLIENT_ID,
-        scope: SCOPES,
-        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
-      }).then(() => {
-        const authInstance = gapi.auth2.getAuthInstance();
+    const authInstance = gapi.auth2.getAuthInstance();
 
-        // Now sign in only when the user clicks the button
-        authInstance.signIn().then((user) => {
-          const accessToken = user.getAuthResponse().access_token;
-          setAccessToken(accessToken);
-        }).catch((err) => {
-          console.error('Error signing in:', err);
-        });
-      }).catch((err) => {
-        console.error('Error initializing Google API:', err);
-      });
+    authInstance.signIn().then((user) => {
+      const accessToken = user.getAuthResponse().access_token;
+      setAccessToken(accessToken);
+    }).catch((err) => {
+      console.error('Error signing in:', err);
     });
   };
 
