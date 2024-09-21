@@ -7,7 +7,6 @@ const SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
 
 const LoginPage = ({ setAccessToken }) => {
   const login = () => {
-    // Load the client and auth2 libraries
     gapi.load('client:auth2', () => {
       gapi.client.init({
         apiKey: API_KEY,
@@ -17,10 +16,9 @@ const LoginPage = ({ setAccessToken }) => {
       }).then(() => {
         const authInstance = gapi.auth2.getAuthInstance();
 
-        // Sign in the user
         authInstance.signIn().then((user) => {
           const accessToken = user.getAuthResponse().access_token;
-          setAccessToken(accessToken); // Pass the access token to your parent component or App
+          setAccessToken(accessToken);
         }).catch((err) => {
           console.error('Error signing in:', err);
         });
@@ -36,8 +34,8 @@ const LoginPage = ({ setAccessToken }) => {
         <div className='d-flex flex-column align-items-center'>
           <h1 className='fs-3 fw-semi m-0'>See your <span className='fw-bold' style={{ color: 'rgb(255, 0, 0)' }}>YouTube</span> Wrapped now</h1>
           <p className='fs-5 m-0 mb-3'>Your top most watched videos, watchtime all in one place</p>
-          <button onClick={login} className='rounded-5 pe-auto border border-gray px-3 py-2 text-white bg-danger'>
-            <i className="bi bi-google me-1"></i>Sign in with Google
+          <button onClick={login} className='rounded-5 pe-auto border-0 px-3 py-2 text-white bg-danger'>
+            <i className="bi bi-google me-2"></i>Sign in with Google
           </button>
         </div>
       </div>
