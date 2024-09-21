@@ -17,9 +17,10 @@ function App() {
     }, []);
 
     useGoogleAuth((token) => {
-        // Save the access token to localStorage
-        localStorage.setItem('accessToken', token);
-        setAccessToken(token);
+        if (token) {
+            localStorage.setItem('accessToken', token);
+            setAccessToken(token);
+        }
     });
 
     return (
