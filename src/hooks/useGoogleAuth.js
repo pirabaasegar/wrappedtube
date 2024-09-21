@@ -16,20 +16,26 @@ const useGoogleAuth = (setAccessToken) => {
       }).then(() => {
         const authInstance = gapi.auth2.getAuthInstance();
 
-        // Check for existing token in local storage
-        const storedToken = localStorage.getItem('accessToken');
-        if (storedToken) {
-          setAccessToken(storedToken); // Set access token from local storage
+        // Check if the user is already signed in
+        if (authInstance.isSignedIn.get()) {
+          const token = authInstance.currentUser.get().getAuthResponse().access_token;
+          localStorage.setItem('accessToken', token);
+          setAccessToken(token);
+        } else {
+          const storedToken = localStorage.getItem('accessToken');
+          if (storedToken) {
+            setAccessToken(storedToken); // Set access token from local storage
+          }
         }
 
         // Listen for sign-in state changes
         authInstance.isSignedIn.listen((isSignedIn) => {
           if (isSignedIn) {
             const token = authInstance.currentUser.get().getAuthResponse().access_token;
-            localStorage.setItem('accessToken', token); // Save to localStorage
+            localStorage.setItem('accessToken', token);
             setAccessToken(token);
           } else {
-            localStorage.removeItem('accessToken'); // Clear the token on sign out
+            localStorage.removeItem('accessToken');
             setAccessToken(null);
           }
         });
