@@ -16,7 +16,7 @@ const MainPage = ({ accessToken }) => {
       <ul className='list-unstyled'>
         {subscriptions.map((sub) => (
           <li key={sub.id} className='d-flex align-items-center gap-3'>
-            <img src={sub.snippet.thumbnails.default.url} alt={sub.snippet.title} className='rounded-circle img-fluid'/>
+            <img src={sub.snippet.thumbnails.default.url} alt={sub.snippet.title} className='rounded-circle img-fluid channel-pic'/>
             <p>{sub.snippet.title}</p>
           </li>
         ))}
