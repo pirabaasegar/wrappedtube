@@ -1,21 +1,36 @@
 import React from 'react';
 import { gapi } from 'gapi-script';
+import { useNavigate } from 'react-router-dom';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 const SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
 
 const LoginPage = ({ setAccessToken }) => {
-  const login = () => {
-    const authInstance = gapi.auth2.getAuthInstance();
+  const navigate = useNavigate();
 
-    authInstance.signIn().then((user) => {
-      const accessToken = user.getAuthResponse().access_token;
-      console.log('Access Token:', accessToken);
-      setAccessToken(accessToken);
-      // Optionally redirect here or handle in App.js
-    }).catch((err) => {
-      console.error('Error signing in:', err);
+  const login = () => {
+    gapi.load('client:auth2', () => {
+      gapi.client.init({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID,
+        scope: SCOPES,
+        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
+      }).then(() => {
+        const authInstance = gapi.auth2.getAuthInstance();
+        
+        authInstance.signIn().then((user) => {
+          const accessToken = user.getAuthResponse().access_token;
+          console.log('Access Token:', accessToken);
+          setAccessToken(accessToken);
+          // Redirect to main page after successful login
+          navigate('/');
+        }).catch((err) => {
+          console.error('Error signing in:', err);
+        });
+      }).catch((err) => {
+        console.error('Error initializing Google API:', err);
+      });
     });
   };
 
