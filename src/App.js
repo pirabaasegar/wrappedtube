@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import MainPage from './components/MainPage';
 import StatsPage from './components/StatsPage';
+import LoginPage from './components/LoginPage';
 import useGoogleAuth from './hooks/useGoogleAuth';
 
 function App() {
-  const [accessToken, setAccessToken] = useState(null);
+    const [accessToken, setAccessToken] = useState(null);
 
-  useGoogleAuth(setAccessToken);
+    useGoogleAuth(setAccessToken);
 
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<MainPage accessToken={accessToken} />} />
-        <Route path="/stats" element={<StatsPage accessToken={accessToken} />} />
-      </Routes>
-    </Router>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route
+                    path="/"
+                    element={accessToken ? <MainPage accessToken={accessToken} /> : <Navigate to="/login" />}
+                />
+                <Route
+                    path="/stats"
+                    element={accessToken ? <StatsPage accessToken={accessToken} /> : <Navigate to="/login" />}
+                />
+                <Route path="/login" element={<LoginPage setAccessToken={setAccessToken} />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
