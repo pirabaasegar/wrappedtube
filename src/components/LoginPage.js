@@ -7,6 +7,7 @@ const SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
 
 const LoginPage = ({ setAccessToken }) => {
   const login = () => {
+    // Move the initialization inside the login function to avoid automatic sign-in
     gapi.load('client:auth2', () => {
       gapi.client.init({
         apiKey: API_KEY,
@@ -15,7 +16,8 @@ const LoginPage = ({ setAccessToken }) => {
         discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
       }).then(() => {
         const authInstance = gapi.auth2.getAuthInstance();
-
+        
+        // Only sign in after user clicks the login button
         authInstance.signIn().then((user) => {
           const accessToken = user.getAuthResponse().access_token;
           setAccessToken(accessToken);
