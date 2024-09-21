@@ -28,7 +28,7 @@ const MainPage = ({ accessToken }) => {
             />
             <div>
               <p className='m-0'>{sub.snippet.title}</p>
-              <p className='m-0 text-muted'>{sub.category}</p> {/* Displays category name */}
+              <p className='m-0 text-muted'>{sub.subscriberCount} subscribers</p>
             </div>
           </li>
         ))}
