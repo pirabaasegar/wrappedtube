@@ -7,8 +7,17 @@ import useGoogleAuth from './hooks/useGoogleAuth';
 
 function App() {
     const [accessToken, setAccessToken] = useState(null);
-
-    useGoogleAuth();
+  
+    // Initialize Google Auth
+    useGoogleAuth(setAccessToken);
+  
+    useEffect(() => {
+      // On initial load, check if token is stored
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+        setAccessToken(token);
+      }
+    }, []);
 
     return (
         <Router>
