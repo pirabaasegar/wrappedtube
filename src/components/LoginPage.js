@@ -7,6 +7,7 @@ const SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
 
 const LoginPage = ({ setAccessToken }) => {
   const login = () => {
+    // Load the client and auth2 libraries
     gapi.load('client:auth2', () => {
       gapi.client.init({
         apiKey: API_KEY,
@@ -16,12 +17,15 @@ const LoginPage = ({ setAccessToken }) => {
       }).then(() => {
         const authInstance = gapi.auth2.getAuthInstance();
 
+        // Sign in the user
         authInstance.signIn().then((user) => {
           const accessToken = user.getAuthResponse().access_token;
-          setAccessToken(accessToken);
+          setAccessToken(accessToken); // Pass the access token to your parent component or App
         }).catch((err) => {
-          console.error('Error signing in', err);
+          console.error('Error signing in:', err);
         });
+      }).catch((err) => {
+        console.error('Error initializing Google API:', err);
       });
     });
   };
