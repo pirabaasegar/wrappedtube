@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import MainPage from './components/MainPage';
 import StatsPage from './components/StatsPage';
@@ -9,6 +9,20 @@ function App() {
     const [accessToken, setAccessToken] = useState(null);
 
     useGoogleAuth();
+
+    // Check if access token exists in localStorage when the app loads
+    useEffect(() => {
+        const storedToken = localStorage.getItem('accessToken');
+        if (storedToken) {
+            setAccessToken(storedToken);
+        }
+    }, []);
+
+    // Store access token in localStorage when it's set
+    const handleSetAccessToken = (token) => {
+        localStorage.setItem('accessToken', token);
+        setAccessToken(token);
+    };
 
     return (
         <Router>
@@ -21,7 +35,7 @@ function App() {
                     path="/stats"
                     element={accessToken ? <StatsPage accessToken={accessToken} /> : <Navigate to="/login" />}
                 />
-                <Route path="/login" element={<LoginPage setAccessToken={setAccessToken} />} />
+                <Route path="/login" element={<LoginPage setAccessToken={handleSetAccessToken} />} />
             </Routes>
         </Router>
     );
