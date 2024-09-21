@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getSubscriptions } from '../api/youtube'; // Ensure this path is correct
+import { getSubscriptions } from '../api/youtube';
+
+const formatSubscribers = (count) => {
+  if (count >= 1000) {
+    return `${(count / 1000).toFixed(1)}K`;
+  }
+  return count.toString();
+};
 
 const MainPage = ({ accessToken }) => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -28,7 +35,7 @@ const MainPage = ({ accessToken }) => {
             />
             <div>
               <p className='m-0'>{sub.snippet.title}</p>
-              <p className='m-0 text-muted'>{sub.subscriberCount} subscribers</p>
+              <p className='m-0 text-muted'>{formatSubscribers(sub.subscriberCount)} subscribers</p>
             </div>
           </li>
         ))}
