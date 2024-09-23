@@ -16,17 +16,17 @@ function App() {
             <Routes>
                 <Route
                     path="/wrapped"
-                    element={accessToken ? <MainPage accessToken={accessToken} /> : <Navigate to="/login" />}
+                    element={accessToken ? <MainPage accessToken={accessToken} /> : <Navigate to="/" />}
                 />
                 <Route
                     path="/subscriptions"
-                    element={accessToken ? <SubsPage accessToken={accessToken} /> : <Navigate to="/login" />}
+                    element={accessToken ? <SubsPage accessToken={accessToken} /> : <Navigate to="/" />}
                 />
                 <Route
                     path="/videos"
-                    element={accessToken ? <VideosPage accessToken={accessToken} /> : <Navigate to="/login" />}
+                    element={accessToken ? <VideosPage accessToken={accessToken} /> : <Navigate to="/" />}
                 />
-                <Route path="/login" element={<LoginPage setAccessToken={setAccessToken} />} />
+                <Route path="/" element={<LoginPage setAccessToken={setAccessToken} />} />
             </Routes>
         </Router>
     );
