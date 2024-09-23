@@ -50,13 +50,19 @@ export const getMostWatchedVideos = async (accessToken) => {
                 Authorization: `Bearer ${accessToken}`,
             },
             params: {
-                part: 'snippet,contentDetails',
+                part: 'snippet,contentDetails,statistics',
                 maxResults: 10,
                 chart: 'mostPopular',
                 mine: true,
             },
         });
-        return response.data.items;
+
+        const videosWithViewCount = response.data.items.map(video => ({
+            ...video,
+            viewCount: video.statistics.viewCount,
+        }));
+
+        return videosWithViewCount;
     } catch (error) {
         console.error('Error fetching videos:', error);
         return [];

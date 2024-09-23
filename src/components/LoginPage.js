@@ -23,7 +23,7 @@ const LoginPage = ({ setAccessToken }) => {
                     const accessToken = user.getAuthResponse().access_token;
                     console.log('Access Token:', accessToken);
                     setAccessToken(accessToken);
-                    navigate('/');
+                    navigate('/wrapped');
                 }).catch((err) => {
                     console.error('Error signing in:', err);
                 });

@@ -1,41 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import MainPage from './components/MainPage';
-import StatsPage from './components/StatsPage';
+import SubsPage from './components/SubsPage';
+import VideosPage from './components/VideosPage';
 import LoginPage from './components/LoginPage';
 import useGoogleAuth from './hooks/useGoogleAuth';
 
 function App() {
     const [accessToken, setAccessToken] = useState(null);
 
-    useGoogleAuth();
-
-    // Check if access token exists in localStorage when the app loads
-    useEffect(() => {
-        const storedToken = localStorage.getItem('accessToken');
-        if (storedToken) {
-            setAccessToken(storedToken);
-        }
-    }, []);
-
-    // Store access token in localStorage when it's set
-    const handleSetAccessToken = (token) => {
-        localStorage.setItem('accessToken', token);
-        setAccessToken(token);
-    };
+    useGoogleAuth(setAccessToken);
 
     return (
         <Router>
             <Routes>
                 <Route
-                    path="/"
+                    path="/wrapped"
                     element={accessToken ? <MainPage accessToken={accessToken} /> : <Navigate to="/login" />}
                 />
                 <Route
-                    path="/stats"
-                    element={accessToken ? <StatsPage accessToken={accessToken} /> : <Navigate to="/login" />}
+                    path="/subscriptions"
+                    element={accessToken ? <SubsPage accessToken={accessToken} /> : <Navigate to="/login" />}
                 />
-                <Route path="/login" element={<LoginPage setAccessToken={handleSetAccessToken} />} />
+                <Route
+                    path="/videos"
+                    element={accessToken ? <VideosPage accessToken={accessToken} /> : <Navigate to="/login" />}
+                />
+                <Route path="/login" element={<LoginPage setAccessToken={setAccessToken} />} />
             </Routes>
         </Router>
     );
