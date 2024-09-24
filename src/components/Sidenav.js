@@ -12,12 +12,12 @@ const Sidenav = () => {
                     </Link>
                 </li>
                 <li className='nav-item p-0 list-unstyled'>
-                    <Link to="/subscriptions" className={`nav-link ${location.pathname === '/subscriptions' ? 'active' : ''}`}>
+                    <Link to="/top-subscriptions" className={`nav-link ${location.pathname === '/subscriptions' ? 'active' : ''}`}>
                         <i class="bi bi-people-fill"></i><span>Top Subscriptions</span>
                     </Link>
                 </li>
                 <li className='nav-item p-0 list-unstyled'>
-                    <Link to="/videos" className={`nav-link ${location.pathname === '/videos' ? 'active' : ''}`}>
+                    <Link to="/most-watched-videos" className={`nav-link ${location.pathname === '/videos' ? 'active' : ''}`}>
                         <i class="bi bi-play-btn-fill"></i><span>Most-Watched Videos</span>
                     </Link>
                 </li>
