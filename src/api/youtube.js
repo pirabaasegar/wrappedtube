@@ -89,3 +89,30 @@ const parseDuration = (duration) => {
 
     return hours + minutes / 60 + seconds / 3600;
 };
+
+export const getUserProfile = async (accessToken) => {
+    try {
+        const response = await axios.get(`${API_URL}/channels`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            params: {
+                part: 'snippet',
+                mine: true,  // Ensures it fetches the authenticated user's channel
+            },
+        });
+
+        if (response.data.items && response.data.items.length > 0) {
+            const userProfile = response.data.items[0].snippet; // Get the first item (the user's profile)
+            return {
+                userName: userProfile.title, // User's display name
+                userImage: userProfile.thumbnails.default.url, // User's profile image
+            };
+        } else {
+            throw new Error("No user profile found");
+        }
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        return { userName: 'Unknown', userImage: null }; // Fallback values
+    }
+};

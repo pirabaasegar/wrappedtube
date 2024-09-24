@@ -1,13 +1,15 @@
 import React from 'react';
 import { gapi } from 'gapi-script';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/AuthContext.js';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 const SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
 
-const Login = ({ setAccessToken }) => {
+const Login = () => {
     const navigate = useNavigate();
+    const { saveAccessToken } = useAuth();
 
     const login = () => {
         gapi.load('client:auth2', () => {
@@ -21,8 +23,7 @@ const Login = ({ setAccessToken }) => {
 
                 authInstance.signIn().then((user) => {
                     const accessToken = user.getAuthResponse().access_token;
-                    console.log('Access Token:', accessToken);
-                    setAccessToken(accessToken);
+                    saveAccessToken(accessToken);
                     navigate('/overview');
                 }).catch((err) => {
                     console.error('Error signing in:', err);
