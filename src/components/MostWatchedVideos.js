@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getMostWatchedVideos, calculateWatchTime } from '../api/youtube';
 
-const VideosPage = ({ accessToken }) => {
+const MostWatchedVideos = ({ accessToken }) => {
     const [topVideos, setTopVideos] = useState([]);
     const [watchTime, setWatchTime] = useState(0);
 
@@ -30,4 +30,4 @@ const VideosPage = ({ accessToken }) => {
     );
 };
 
-export default VideosPage;
+export default MostWatchedVideos;

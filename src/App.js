@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import MainPage from './components/MainPage';
-import SubsPage from './components/SubsPage';
-import VideosPage from './components/VideosPage';
-import LoginPage from './components/LoginPage';
+
+import Login from './components/Login';
+import Overview from './components/Overview';
+import TopSubscriptions from './components/TopSubscriptions';
+import MostWatchedVideos from './components/MostWatchedVideos';
+import WatchTime from './components/WatchTime';
+import Activity from './components/Activity';
+import Share from './components/Share';
+
 import useGoogleAuth from './hooks/useGoogleAuth';
 
 function App() {
@@ -14,19 +19,13 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route
-                    path="/wrapped"
-                    element={accessToken ? <MainPage accessToken={accessToken} /> : <Navigate to="/" />}
-                />
-                <Route
-                    path="/subscriptions"
-                    element={accessToken ? <SubsPage accessToken={accessToken} /> : <Navigate to="/" />}
-                />
-                <Route
-                    path="/videos"
-                    element={accessToken ? <VideosPage accessToken={accessToken} /> : <Navigate to="/" />}
-                />
-                <Route path="/" element={<LoginPage setAccessToken={setAccessToken} />} />
+                <Route path="/" element={<Login setAccessToken={setAccessToken} accessToken={accessToken} />} />
+                <Route path="/overview" element={accessToken ? <Overview accessToken={accessToken} /> : <Navigate to="/" />} />
+                <Route path="/top-subscriptions" element={accessToken ? <TopSubscriptions accessToken={accessToken} /> : <Navigate to="/" />} />
+                <Route path="/most-watched-videos" element={accessToken ? <MostWatchedVideos accessToken={accessToken} /> : <Navigate to="/" />} />
+                <Route path="/watch-time" element={accessToken ? <WatchTime accessToken={accessToken} /> : <Navigate to="/" />} />
+                <Route path="/activity" element={accessToken ? <Activity accessToken={accessToken} /> : <Navigate to="/" />} />
+                <Route path="/share" element={accessToken ? <Share accessToken={accessToken} /> : <Navigate to="/" />} />
             </Routes>
         </Router>
     );

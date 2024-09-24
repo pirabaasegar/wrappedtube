@@ -6,7 +6,7 @@ const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 const SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
 
-const LoginPage = ({ setAccessToken }) => {
+const Login = ({ setAccessToken }) => {
     const navigate = useNavigate();
 
     const login = () => {
@@ -23,7 +23,7 @@ const LoginPage = ({ setAccessToken }) => {
                     const accessToken = user.getAuthResponse().access_token;
                     console.log('Access Token:', accessToken);
                     setAccessToken(accessToken);
-                    navigate('/wrapped');
+                    navigate('/overview');
                 }).catch((err) => {
                     console.error('Error signing in:', err);
                 });
@@ -46,4 +46,4 @@ const LoginPage = ({ setAccessToken }) => {
     );
 };
 
-export default LoginPage;
+export default Login;

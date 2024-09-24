@@ -10,7 +10,7 @@ const formatNumbers = (count) => {
     return count.toString();
 };
 
-const MainPage = ({ accessToken }) => {
+const Overview = ({ accessToken }) => {
     const [subscriptions, setSubscriptions] = useState([]);
     const [topVideos, setTopVideos] = useState([]);
 
@@ -37,11 +37,11 @@ const MainPage = ({ accessToken }) => {
         <>
             <div className='d-flex flex-column-reverse flex-md-row w-100 h-md-100'>
                 <Sidenav />
-                <main className='w-100 bg-body-tertiary'>
+                <main className='w-100 bg-body-tertiary vh-100 overflow-scroll'>
                     <div className='container d-flex flex-column h-100 mx-auto py-md-5 px-md-5 gap-5'>
                         <div className='hero w-100 h-50 p-4 d-flex text-white flex-column-reverse shadow rounded-4' style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)', backgroundPosition: 'center', backgroundSize: 'cover' }}>
                             <div className='w-100 mx-md-auto'>
-                                <h1 className='fw-bold text-5'>Your YouTube Wrapped</h1>
+                                <h1 className='fw-bold text-5'>Welcome to Your Year on YouTube!</h1>
                             </div>
                         </div>
                         <div className='d-flex flex-row gap-3'>
@@ -91,4 +91,4 @@ const MainPage = ({ accessToken }) => {
     );
 };
 
-export default MainPage;
+export default Overview;
