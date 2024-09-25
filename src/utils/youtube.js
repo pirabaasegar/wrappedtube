@@ -69,8 +69,17 @@ export const getMostWatchedVideos = async (accessToken) => {
     }
 };
 
-export const calculateWatchTime = async (videos) => {
+export const getWatchTime = async (videos) => {
     let totalWatchTime = 0;
+
+    const parseDuration = (duration) => {
+        const match = /PT(\d+H)?(\d+M)?(\d+S)?/.exec(duration);
+        const hours = match[1] ? parseInt(match[1].replace('H', '')) : 0;
+        const minutes = match[2] ? parseInt(match[2].replace('M', '')) : 0;
+        const seconds = match[3] ? parseInt(match[3].replace('S', '')) : 0;
+    
+        return hours + minutes / 60 + seconds / 3600;
+    };
 
     videos.forEach((video) => {
         const duration = video.contentDetails.duration;
@@ -81,38 +90,20 @@ export const calculateWatchTime = async (videos) => {
     return totalWatchTime;
 };
 
-const parseDuration = (duration) => {
-    const match = /PT(\d+H)?(\d+M)?(\d+S)?/.exec(duration);
-    const hours = match[1] ? parseInt(match[1].replace('H', '')) : 0;
-    const minutes = match[2] ? parseInt(match[2].replace('M', '')) : 0;
-    const seconds = match[3] ? parseInt(match[3].replace('S', '')) : 0;
-
-    return hours + minutes / 60 + seconds / 3600;
-};
-
 export const getUserProfile = async (accessToken) => {
-    try {
-        const response = await axios.get(`${API_URL}/channels`, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-            params: {
-                part: 'snippet',
-                mine: true,  // Ensures it fetches the authenticated user's channel
-            },
-        });
-
-        if (response.data.items && response.data.items.length > 0) {
-            const userProfile = response.data.items[0].snippet; // Get the first item (the user's profile)
-            return {
-                userName: userProfile.title, // User's display name
-                userImage: userProfile.thumbnails.default.url, // User's profile image
-            };
-        } else {
-            throw new Error("No user profile found");
+    const response = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true', {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
         }
-    } catch (error) {
-        console.error('Error fetching user profile:', error);
-        return { userName: 'Unknown', userImage: null }; // Fallback values
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch user profile');
     }
+
+    const data = await response.json();
+    return {
+        userName: data.items[0].snippet.title,
+        userImage: data.items[0].snippet.thumbnails.default.url
+    };
 };

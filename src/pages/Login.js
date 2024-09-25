@@ -1,7 +1,7 @@
 import React from 'react';
 import { gapi } from 'gapi-script';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/AuthContext.js';
+import { useAuth } from '../components/AuthContext.js';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -25,8 +25,6 @@ const Login = () => {
                     const accessToken = user.getAuthResponse().access_token;
                     saveAccessToken(accessToken);
                     navigate('/overview');
-                }).catch((err) => {
-                    console.error('Error signing in:', err);
                 });
             }).catch((err) => {
                 console.error('Error initializing Google API:', err);
@@ -39,7 +37,7 @@ const Login = () => {
             <div className='d-flex flex-column align-items-center'>
                 <h1 className='fs-3 fw-semi m-0'>See your <span className='fw-bold text-danger'>YouTube</span> Wrapped Now!</h1>
                 <p className='fs-5 m-0 mb-3 text-center'>Your top most watched videos, watchtime<br />all in one place</p>
-                <button onClick={login} className='rounded-5 pe-auto border-0 px-3 py-2 text-white bg-danger'>
+                <button onClick={login} className='rounded-2 pe-auto border-0 px-3 py-2 text-white bg-danger shadow-btn'>
                     <i className="bi bi-google me-2"></i>Sign in with Google
                 </button>
             </div>

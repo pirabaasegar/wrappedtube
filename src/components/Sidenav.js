@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { getUserProfile } from '../api/youtube';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getUserProfile } from '../utils/youtube';
+import { useAuth } from './AuthContext';
 
-const Sidenav = ({ accessToken }) => {
+const Sidenav = () => {
+    const { accessToken, logout } = useAuth();
     const location = useLocation();
-    const [userName, setUserName] = useState('John Doe');
+    const navigate = useNavigate();
+    const [userName, setUserName] = useState(null);
     const [userImage, setUserImage] = useState(null);
 
     useEffect(() => {
@@ -23,22 +26,27 @@ const Sidenav = ({ accessToken }) => {
         fetchProfile();
     }, [accessToken]);
 
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
+
     return (
         <aside className="sidenav" id="sidenav">
             <ul className='sidenav-nav p-0 m-0 list-unstyled'>
                 <li className='nav-item p-0 list-unstyled'>
-                    <Link to="/overview" className={`nav-link ${location.pathname === '/wrapped' ? 'active' : ''}`}>
+                    <Link to="/overview" className={`nav-link ${location.pathname === '/overview' ? 'active' : ''}`}>
                         <i className="bi bi-house-fill"></i><span>Overview</span>
                     </Link>
                 </li>
                 <li className='nav-item p-0 list-unstyled'>
-                    <Link to="/top-subscriptions" className={`nav-link ${location.pathname === '/subscriptions' ? 'active' : ''}`}>
+                    <Link to="/top-subscriptions" className={`nav-link ${location.pathname === '/top-subscriptions' ? 'active' : ''}`}>
                         <i className="bi bi-people-fill"></i><span>Top Subscriptions</span>
                     </Link>
                 </li>
                 <li className='nav-item p-0 list-unstyled'>
-                    <Link to="/most-watched-videos" className={`nav-link ${location.pathname === '/videos' ? 'active' : ''}`}>
-                        <i className="bi bi-play-btn-fill"></i><span>Most-Watched Videos</span>
+                    <Link to="/most-watched-videos" className={`nav-link ${location.pathname === '/most-watched-videos' ? 'active' : ''}`}>
+                        <i className="bi bi-youtube"></i><span>Most-Watched Videos</span>
                     </Link>
                 </li>
                 <li className='nav-item p-0 list-unstyled'>
@@ -57,16 +65,23 @@ const Sidenav = ({ accessToken }) => {
                     </Link>
                 </li>
             </ul>
-            <Link to="#" className="d-flex align-items-center text-decoration-none text-black py-1 px-2">
-                <img 
-                    src={userImage || "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"} 
-                    alt={`${userName}'s profile`} 
-                    width={32} 
-                    height={32} 
-                    className="rounded-circle me-2" 
-                />
-                <span>{userName}</span>
-                <i className="bi bi-chevron-down ms-2"></i>
+            <Link to="#" className="d-flex align-items-center justify-content-between text-decoration-none text-black py-1 px-2 profile-btn">
+                <div>
+                    <img 
+                        src={userImage} 
+                        alt='' 
+                        width={32} 
+                        height={32} 
+                        className="rounded-circle me-2" 
+                    />
+                    <span>{userName}</span>
+                </div>
+                <div>
+                    <Link to='/settings'><i className="bi bi-gear-fill me-3"></i></Link>
+                    <button onClick={handleLogout} className="border-0 bg-transparent text-black">
+                        <i className="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
             </Link>
         </aside>
     );
