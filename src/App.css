@@ -12,14 +12,35 @@ body {
   width: 3rem;
 }
 
+.sidenav.closed {
+  width: 0px;
+  min-width: 0px;
+  padding: 0; /* Remove padding when closed */
+  opacity: 0; /* Optional: add opacity to fade out the sidenav */
+  overflow: hidden; /* Prevent content from being visible */
+}
+
+.main {
+  transition: margin-left 0.3s ease;
+}
+
+.sidenav-open .main {
+  margin-left: 250px;
+}
+
+.sidenav-closed .main {
+  margin-left: 0;
+}
+
 .sidenav {
   position: relative;
   top: 0;
   left: 0;
   bottom: 0;
-  width: 330px;
+  width: 300px; /* Keep this width for open state */
+  min-width: 300px; /* Add this to prevent shrinking */
   z-index: 996;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
   padding: 20px;
   overflow-y: auto;
   background-color: #fff;
@@ -41,6 +62,7 @@ body {
   transition: 0.3s;
   padding: 10px 15px;
   border-radius: 4px;
+  white-space: nowrap;
 }
 
 .sidenav-nav .active {
@@ -92,4 +114,11 @@ body {
 
 .fade-out {
   animation: fadeOut 0.5s forwards;
+}
+
+.sidenav-btn {
+  padding: 10px 40px;
+  font-size: 25px;
+  margin-top: 14px;
+  z-index: 1000;
 }

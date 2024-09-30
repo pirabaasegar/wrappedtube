@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { getSubscriptions } from '../utils/youtube';
 import { useAuth } from '../components/AuthContext';
 import Sidenav from '../components/Sidenav';
@@ -13,6 +12,7 @@ const formatNumbers = (count) => {
 
 const TopSubscriptions = () => {
     const [subscriptions, setSubscriptions] = useState([]);
+    const [isSidenavOpen, setIsSidenavOpen] = useState(true); 
     const { accessToken } = useAuth();
 
     useEffect(() => {
@@ -26,15 +26,21 @@ const TopSubscriptions = () => {
         fetchSubscriptions();
     }, [accessToken]);
 
+    const toggleSidenav = () => {
+        setIsSidenavOpen(!isSidenavOpen);
+    };
+
     return (
         <>
-            <div className='d-flex flex-column-reverse flex-md-row w-100 h-md-100'>
-                <Sidenav />
-                <main className='w-100 bg-body-tertiary vh-100 overflow-scroll'>
+            <div className={`d-flex flex-md-row w-100 h-md-100 ${isSidenavOpen ? 'sidenav-open' : 'sidenav-closed'}`}>
+            <Sidenav isOpen={isSidenavOpen} />
+            <main className={`w-100 bg-body-tertiary vh-100 overflow-scroll ${isSidenavOpen ? 'shrink-main' : 'expand-main'}`}>
+                    <button onClick={toggleSidenav} className="border-0 bg-transparent text-black position-fixed sidenav-btn">
+                        <i className="bi bi-list"></i>
+                    </button>
                     <div className='container d-flex flex-column h-100 mx-auto py-md-5 px-md-5 gap-5'>
                         <div className='d-flex flex-row gap-3'>
-                            <ul className='list-unstyled d-flex flex-column gap-3 overflow-y-scroll w-50'>
-                                <Link to="/subscriptions" className='fw-bold fs-4 text-black text-decoration-none'>Your Top Subscriptions<i class="bi bi-chevron-right ms-2"></i></Link>
+                            <ul className='list-unstyled d-flex flex-column gap-3 overflow-y-scroll w-100 flex-wrap h-50'>
                                 {subscriptions.map((sub, index) => (
                                     <li key={sub.id} className='d-flex align-items-center gap-3'>
                                         <div style={{ minWidth: '22px' }}>

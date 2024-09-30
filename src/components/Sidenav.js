@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getUserProfile } from '../utils/youtube';
 import { useAuth } from './AuthContext';
 
-const Sidenav = () => {
+const Sidenav = ({ isOpen }) => {
     const { accessToken, logout } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Sidenav = () => {
     };
 
     return (
-        <aside className="sidenav" id="sidenav">
+        <aside className={`sidenav ${isOpen ? 'open' : 'closed'}`} id="sidenav">
             <ul className='sidenav-nav p-0 m-0 list-unstyled'>
                 <li className='nav-item p-0 list-unstyled'>
                     <Link to="/overview" className={`nav-link ${location.pathname === '/overview' ? 'active' : ''}`}>
@@ -65,8 +65,8 @@ const Sidenav = () => {
                     </Link>
                 </li>
             </ul>
-            <Link to="#" className="d-flex align-items-center justify-content-between text-decoration-none text-black py-1 px-2 profile-btn">
-                <div>
+            <Link to="#" className="d-flex align-items-center justify-content-between text-decoration-none text-black py-1 px-2 text-nowrap profile-btn">
+                <div className='d-flex flex-row align-items-center'>
                     <img 
                         src={userImage} 
                         alt='' 
@@ -74,7 +74,7 @@ const Sidenav = () => {
                         height={32} 
                         className="rounded-circle me-2" 
                     />
-                    <span>{userName}</span>
+                    <p className='m-0'>{userName}</p>
                 </div>
                 <div>
                     <Link to='/settings'><i className="bi bi-gear-fill me-3"></i></Link>

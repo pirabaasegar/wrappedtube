@@ -91,19 +91,24 @@ export const getWatchTime = async (videos) => {
 };
 
 export const getUserProfile = async (accessToken) => {
-    const response = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true', {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to fetch user profile');
+    try {
+        const response = await axios.get(`${API_URL}/channels`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            params: {
+                part: 'snippet',
+                mine: true,
+            },
+        });
+    
+        const data = response.data;
+        return {
+            userName: data.items[0].snippet.title,
+            userImage: data.items[0].snippet.thumbnails.default.url,
+        };
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        return null;
     }
-
-    const data = await response.json();
-    return {
-        userName: data.items[0].snippet.title,
-        userImage: data.items[0].snippet.thumbnails.default.url
-    };
 };
